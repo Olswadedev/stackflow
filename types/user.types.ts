@@ -1,5 +1,9 @@
 export type UserRole = "user" | "admin";
 
+export type UserLoginState = { error?: string } | null;
+export type UserRegisterState = { error?: string; success?: boolean } | null;
+export type ProfileState = { error?: string; success?: boolean } | null;
+
 export interface MockUser {
   id: string;
   nom: string;

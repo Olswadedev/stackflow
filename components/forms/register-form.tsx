@@ -2,67 +2,15 @@
 
 import { FORM_BTN_PRIMARY, FORM_FIELD } from "@/lib/form-classes";
 import Link from "next/link";
-import { type FormEvent, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { registerUser, type UserRegisterState } from "@/server/actions/user-auth.actions";
+import { useActionState } from "react";
 
 export function RegisterForm() {
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const router = useRouter();
-
-  useEffect(() => {
-    if (success) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [success]);
-
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError(null);
-    const form = e.currentTarget;
-    const lastName = (form.elements.namedItem("lastName") as HTMLInputElement)
-      .value.trim();
-    const firstName = (
-      form.elements.namedItem("firstName") as HTMLInputElement
-    ).value.trim();
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value
-      .trim();
-    const password = (form.elements.namedItem("password") as HTMLInputElement)
-      .value;
-    const confirm = (
-      form.elements.namedItem("confirmPassword") as HTMLInputElement
-    ).value;
-
-    if (!lastName || !firstName || !email || !password || !confirm) {
-      setSuccess(false);
-      setError("Veuillez remplir tous les champs.");
-      return;
-    }
-
-    if (!email.includes("@")) {
-      setSuccess(false);
-      setError("L’e-mail doit contenir un @.");
-      return;
-    }
-
-    if (password !== confirm) {
-      setSuccess(false);
-      setError("La confirmation ne correspond pas au mot de passe.");
-      return;
-    }
-
-    setSuccess(true);
-    setError(null);
-    form.reset();
-
-      setTimeout(() => {
-        router.push("/");
-      }, 1500);
-  }
+  const [state, formAction, pending] = useActionState<UserRegisterState, FormData>(registerUser, null);
 
   return (
     <div>
-      {success ? (
+      {state?.success ? (
         <div
           className="mb-6 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-center text-sm font-medium text-emerald-300"
           role="status"
@@ -72,7 +20,7 @@ export function RegisterForm() {
       ) : null}
 
       <form
-        onSubmit={handleSubmit}
+        action={formAction}
         className="rounded-2xl border border-white/10 bg-zinc-900/60 p-8 shadow-2xl shadow-black/40 backdrop-blur-xl"
         noValidate
       >
@@ -156,14 +104,14 @@ export function RegisterForm() {
           </div>
         </div>
 
-        {error ? (
+        {state?.error ? (
           <p className="mt-4 text-sm text-red-400" role="alert">
-            {error}
+            {state.error}
           </p>
         ) : null}
 
-        <button type="submit" className={FORM_BTN_PRIMARY}>
-          S&apos;inscrire
+        <button type="submit" className={FORM_BTN_PRIMARY} disabled={pending}>
+          {pending ? "Inscription..." : "S'inscrire"}
         </button>
 
         <p className="mt-6 border-t border-white/10 pt-6 text-center text-sm text-zinc-500">

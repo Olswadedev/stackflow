@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
+import { getCurrentUser, updateProfile, type ProfileState } from "@/server/actions/profile.actions";
+import { useActionState } from "react";
 
 export function EspacePanel({ setActiveTab }: { setActiveTab: (tab: "dashboard" | "settings") => void }) {
+  const [state, formAction, pending] = useActionState<ProfileState, FormData>(updateProfile, null);
   const [editing, setEditing] = useState(false);
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -13,6 +16,13 @@ export function EspacePanel({ setActiveTab }: { setActiveTab: (tab: "dashboard" 
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    getCurrentUser().then(user => {
+      if (user) {
+        setLastName(user.nom);
+        setFirstName(user.prenom);
+        setEmail(user.email);
+      }
+    });
     return () => {
       if (photoPreview) URL.revokeObjectURL(photoPreview);
     };
@@ -123,11 +133,30 @@ export function EspacePanel({ setActiveTab }: { setActiveTab: (tab: "dashboard" 
 
         <button
           type="button"
-          onClick={() => setEditing((v) => !v)}
-          className="mt-8 w-full rounded-xl border border-white/15 bg-white/5 py-3 text-sm font-semibold text-white transition hover:border-white/25 hover:bg-white/10 sm:w-auto sm:px-8"
+          onClick={editing ? () => {
+            const fd = new FormData();
+            fd.append('lastName', lastName);
+            fd.append('firstName', firstName);
+            fd.append('email', email);
+            formAction(fd);
+          } : () => setEditing(true)}
+          disabled={pending}
+          className="mt-8 w-full rounded-xl border border-white/15 bg-white/5 py-3 text-sm font-semibold text-white transition hover:border-white/25 hover:bg-white/10 sm:w-auto sm:px-8 disabled:opacity-50"
         >
-          {editing ? "Enregistrer" : "Modifier le profil"}
+          {pending ? "Sauvegarde..." : editing ? "Enregistrer" : "Modifier le profil"}
         </button>
+
+        {state?.error ? (
+          <p className="mt-2 text-sm text-red-400" role="alert">
+            {state.error}
+          </p>
+        ) : null}
+
+        {state?.success ? (
+          <p className="mt-2 text-sm text-emerald-400" role="status">
+            Profil mis à jour !
+          </p>
+        ) : null}
       </section>
 
       <section className="rounded-2xl border border-white/10 bg-zinc-900/60 p-6 shadow-xl backdrop-blur-xl sm:p-8">

@@ -129,7 +129,7 @@ export function DashboardView() {
 
         {/* MON ESPACE */}
         {activeTab === "settings" && (
-          <EspaceView setActiveTab={setActiveTab} />
+          <EspaceView  />
         )}
         
       </div>

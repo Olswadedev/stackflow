@@ -13,7 +13,7 @@ export async function loginAdmin(
   formData: FormData,
 ): Promise<AdminLoginState> {
   const password = String(formData.get("password") ?? "").trim();
-  const expected = process.env.ADMIN_DEMO_PASSWORD?.trim() || "OS"
+const expected = process.env.ADMIN_DEMO_PASSWORD?.trim() || "admin"
 
   if (password !== expected) {
     return { error: "Mot de passe administrateur incorrect." };
