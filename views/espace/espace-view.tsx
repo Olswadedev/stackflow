@@ -1,10 +1,7 @@
-import { AuthShell } from "@/components/layout/auth-shell";
-import { EspacePanel } from "@/views/espace/espace-panel";
+"use client";
 
-export function EspaceView() {
-  return (
-    <AuthShell title="Mon espace">
-      <EspacePanel />
-    </AuthShell>
-  );
+import { EspacePanel } from "./espace-panel";
+
+export function EspaceView({ setActiveTab }: { setActiveTab: (tab: "dashboard" | "settings") => void }) {
+  return <EspacePanel setActiveTab={setActiveTab} />;
 }

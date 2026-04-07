@@ -24,12 +24,7 @@ export function HomeView() {
       <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <LogoMark className="text-white" />
         <nav className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
-          <Link
-            href="/espace"
-            className="rounded-full border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/30 hover:bg-white/10"
-          >
-            Mon espace
-          </Link>
+         
           <Link
             href="/admin/connexion"
             className="rounded-full border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15"

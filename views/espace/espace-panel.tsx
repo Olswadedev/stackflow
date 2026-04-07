@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
-export function EspacePanel() {
+export function EspacePanel({ setActiveTab }: { setActiveTab: (tab: "dashboard" | "settings") => void }) {
   const [editing, setEditing] = useState(false);
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -183,12 +183,12 @@ export function EspacePanel() {
       </section>
 
       <div className="flex flex-col gap-3 sm:flex-row">
-        <Link
-          href="/"
-          className="inline-flex flex-1 items-center justify-center rounded-xl border border-white/15 bg-white/5 py-3 text-sm font-semibold text-white transition hover:border-white/25 hover:bg-white/10"
-        >
-          Accueil
-        </Link>
+        <button
+  onClick={() => setActiveTab("dashboard")}
+  className="inline-flex flex-1 items-center justify-center rounded-xl border border-white/15 bg-white/5 py-3 text-sm font-semibold text-white transition hover:border-white/25 hover:bg-white/10"
+>
+  Retour
+</button>
         
       </div>
     </div>
