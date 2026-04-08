@@ -13,4 +13,5 @@ export interface MockUser {
   derniereConnexion: string;
   role: UserRole;
   actif: boolean;
+  archived?: boolean;
 }

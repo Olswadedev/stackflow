@@ -41,7 +41,11 @@ export async function loginUser(
     maxAge: 60 * 60 * 8,
   });
 
-  redirect("/dashboard");
+  if (user.role === "admin") {
+    redirect("/admin");
+  } else {
+    redirect("/dashboard");
+  }
 }
 
 export async function registerUser(
@@ -91,7 +95,9 @@ export async function registerUser(
     maxAge: 60 * 60 * 8,
   });
 
-  return { success: true };
+  // New user is always "user" role, redirect to dashboard
+  redirect("/dashboard");
+
 }
 
 export async function logoutUser() {

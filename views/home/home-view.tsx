@@ -1,3 +1,5 @@
+"use client";
+
 import { LogoMark } from "@/components/layout/logo-mark";
 import Link from "next/link";
 
@@ -23,14 +25,7 @@ export function HomeView() {
 
       <header className="relative z-10 mx-auto flex max-w-6xl items-center justify-between px-6 py-6">
         <LogoMark className="text-white" />
-        <nav className="flex flex-wrap items-center justify-end gap-2 sm:gap-3">
-         
-          <Link
-            href="/admin/connexion"
-            className="rounded-full border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:border-amber-400/50 hover:bg-amber-500/15"
-          >
-            Admin
-          </Link>
+        <nav>
           <Link
             href="/login"
             className="rounded-full px-4 py-2 text-sm font-medium text-zinc-300 transition hover:bg-white/5 hover:text-white"
@@ -39,7 +34,7 @@ export function HomeView() {
           </Link>
           <Link
             href="/register"
-            className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-950 shadow-lg shadow-white/10 transition hover:bg-zinc-100"
+            className="ml-3 rounded-full bg-white px-4 py-2 text-sm font-semibold text-zinc-950 shadow-lg shadow-white/10 transition hover:bg-zinc-100"
           >
             S&apos;inscrire
           </Link>
@@ -64,14 +59,12 @@ export function HomeView() {
           </p>
 
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center">
-            
             <Link
               href="/register"
               className="inline-flex h-12 items-center justify-center rounded-xl bg-linear-to-r from-violet-600 to-fuchsia-600 px-8 text-sm font-semibold text-white shadow-xl shadow-violet-600/30 transition hover:brightness-110"
             >
               Commencer gratuitement
             </Link>
-           
           </div>
 
           <dl className="mt-16 grid max-w-lg grid-cols-3 gap-6 border-t border-white/10 pt-10 sm:gap-10">

@@ -1,4 +1,16 @@
-import type { MockUser } from "@/types/user.types";
+// src/lib/users.mock.ts
+
+export interface MockUser {
+  id: string;
+  nom: string;
+  prenom: string;
+  email: string;
+  enLigne: boolean;
+  derniereConnexion: string;
+  role: "user" | "admin";
+  actif: boolean;
+  archived?: boolean;
+}
 
 export const MOCK_USERS_INITIAL: MockUser[] = [
   {
@@ -40,6 +52,7 @@ export const MOCK_USERS_INITIAL: MockUser[] = [
     derniereConnexion: "2026-03-28T11:22:00",
     role: "user",
     actif: false,
+    archived: false,
   },
   {
     id: "5",

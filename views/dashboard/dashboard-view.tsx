@@ -3,9 +3,47 @@
 import Link from "next/link";
 import { useState } from "react";
 import { EspaceView } from "@/views/espace/espace-view";
+import { jsPDF } from "jspdf"; // Importation de la bibliothèque
 
 export function DashboardView() {
-  const [activeTab, setActiveTab] = useState<"dashboard" | "settings">("dashboard"); // corrigé
+  const [activeTab, setActiveTab] = useState<"dashboard" | "settings">("dashboard");
+
+  // FONCTION DE TÉLÉCHARGEMENT RÉELLE
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+
+    // Design simple du PDF
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.setTextColor(139, 92, 246); // Ta couleur violette
+    doc.text("RAPPORT D'ACTIVITÉ - SYNTHÈSE", 20, 30);
+
+    doc.setFontSize(12);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Généré le : ${new Date().toLocaleDateString()} à ${new Date().toLocaleTimeString()}`, 20, 40);
+
+    doc.setLineWidth(0.5);
+    doc.line(20, 45, 190, 45);
+
+    // Données de l'utilisateur
+    doc.setFontSize(14);
+    doc.setTextColor(0, 0, 0);
+    doc.text("Résumé du compte :", 20, 60);
+
+    doc.setFont("helvetica", "normal");
+    doc.text("- Statut : En ligne", 25, 70);
+    doc.text("- Type de compte : Actif", 25, 80);
+    doc.text("- Notifications : 1 nouvelle", 25, 90);
+    doc.text("- Activité : Connexion enregistrée aujourd'hui", 25, 100);
+
+    // Footer
+    doc.setFontSize(10);
+    doc.setTextColor(150, 150, 150);
+    doc.text("Document généré automatiquement par votre Dashboard.", 20, 280);
+
+    // C'est cette ligne qui déclenche le téléchargement dans le navigateur
+    doc.save("donnees-activite.pdf");
+  };
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-zinc-950 text-zinc-100">
@@ -34,12 +72,22 @@ export function DashboardView() {
             </p>
           </div>
 
-          <button
-            onClick={() => setActiveTab("settings")}
-            className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10"
-          >
-            Paramètres
-          </button>
+          <div className="flex items-center gap-3">
+            {/* BOUTON PDF FONCTIONNEL */}
+            <button
+              onClick={handleDownloadPDF}
+              className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-300 hover:bg-white/10 transition-colors"
+            >
+              Télécharger PDF
+            </button>
+
+            <button
+              onClick={() => setActiveTab("settings")}
+              className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm text-white hover:bg-white/10 transition-colors"
+            >
+              Paramètres
+            </button>
+          </div>
         </div>
 
         {activeTab === "dashboard" && (
@@ -82,20 +130,17 @@ export function DashboardView() {
               </h2>
 
               <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-
                 <Link
                   href="/"
-                  className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400 transition hover:bg-red-500/20"
+                  className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400 transition hover:bg-red-500/20 text-center"
                 >
                   Se déconnecter
                 </Link>
-                
               </div>
             </div>
 
             {/* GRID */}
             <div className="grid gap-6 md:grid-cols-2">
-              
               <div className="rounded-2xl border border-white/10 bg-zinc-900/60 p-6 backdrop-blur-xl">
                 <h2 className="text-lg font-semibold text-white mb-4">
                   Messages
@@ -127,9 +172,9 @@ export function DashboardView() {
           </>
         )}
 
-        {/* MON ESPACE */}
+        {/* PARAMÈTRES / ESPACE */}
         {activeTab === "settings" && (
-          <EspaceView  />
+          <EspaceView setActiveTab={setActiveTab} />
         )}
         
       </div>

@@ -1,12 +1,7 @@
 
-import type { Metadata } from "next";
-import { EspaceView } from "@/views/espace/espace-view";
-
-// export const metadata: Metadata = {
-//   title: "Mon espace",
-//   description: "Profil, messages et notifications.",
-// };
+import { AdminDashboardView } from "@/views/admin/admin-dashboard-view";
 
 export default function Page() {
-  return <EspaceView  />;
+  // On utilise le composant que nous avons rendu fonctionnel 
+  return <AdminDashboardView />;
 }

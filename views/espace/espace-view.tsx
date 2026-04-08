@@ -1,10 +1,7 @@
 "use client";
+import EspacePanel from "./espace-panel";
 
-import { EspacePanel } from "./espace-panel";
-
-export function EspaceView() {
-const setActiveTab = (tab: "dashboard" | "settings") => {
-  console.log("Active tab:", tab);
-}
+// On accepte la fonction en provenance du Dashboard
+export function EspaceView({ setActiveTab }: { setActiveTab: (tab: "dashboard" | "settings") => void }) {
   return <EspacePanel setActiveTab={setActiveTab} />;
 }
